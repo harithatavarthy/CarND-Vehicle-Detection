@@ -116,11 +116,7 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ![alt text][image10]
 
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
+The code for processing frames of video is contained in function `vehicle_detection_tracking()` (code cell IN-380) and is identical to the code for processing a single image described above, with the exception of storing the detections (returned by find_cars) from the previous 20 frames of video using the prior_boxes parameter from a class called Save_vehicle_detect. Rather than performing the heatmap/threshold/label steps for the current frame's detections, the detections for the past 20 frames are combined and added to the heatmap and the threshold for the heatmap is set to 1 + len(det.prev_rects)//1 (one more than the number of windows sets contained in the history) - this value was found to perform best empirically (rather than using a single scalar, or the full number of rectangle sets in the history).
 
 
 
@@ -130,5 +126,14 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Though most of the code base that i have used for this project is supplied by Udacity, i faced challenges with respect to obtaining the desired  accuracy and the speed at which i can train the classifier. Chosing the right color space took multiple experimentations.
+Also, Training the classifier took about two hours when i used all the training data supplied by udacity. I could have used an advanced GPU to fasten the training process but as it comes with a cost, i thought of experimenting with different combinations of pixels_per_cell. When i used the pixel_per_cell value of '16' instead of lower value, it did wonders in terms of increased speed of training .
+
+Though the overall pipeline works as expected for majority of the projects video frames, it is likely to fail in the following scenarios.
+ a. Extreme lighting/shadow and environment conditions
+ b. Inability to detect vehicles that are far from the field of view as smaller windows tend to produce more false positives
+ c. Vehicles that are not part of training data set and are of different shape (ex : Buses/Trucks that are not part of training set)
+ 
+ Overall, the pipeline can be more rigid and accuraceif we can complement the camera data with some other forms of data (like sensors).
+ 
 
