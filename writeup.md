@@ -66,15 +66,18 @@ Initially i tried to train the linear SVM using HOG features obtained from vario
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+Though Udacity suggested to use LinearSVM for this project, i  experimented with various other classifiere (including naive bayes, SVM with Grid Search and Decision Trees). Training took a lot longer using Decision Tree compared to SVM and Naive Bayes performed poorly over SVM. For that reason , i decided to use SVM and tried to experiment with various parameter combinations of SVM through Grid Search and found out that Linear SVM with a 'C' value of 1.0 is preferred over other combination.
+
+I have hence used LinearSVM to train my classifier.
 
 ###Sliding Window Search
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+Initially i have used the udacity supplied code to perform sliding window search . You can see the `slide_window`function defined in code cell IN-383. This function works well for a fixed window size and does not work for a multi scale window search. As you can see in the visual below, this function can be called to draw fixed sized windows on an image.
 
-![alt text][image3]
+
+![alt text][image12]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
