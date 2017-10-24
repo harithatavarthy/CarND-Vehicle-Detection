@@ -60,7 +60,9 @@ Here is an example using the `RGB` color space and HOG parameters of `orientatio
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+Initially i tried to train the linear SVM using HOG features obtained from various color spaces . However RGB Color space gave me an better accuracy ( `99.6%`) over other color spaces and for that reason I have fixed on to 'RGB' color space. Then I experimented with various combinations of HOG parameters including a pixels_per_cell combination of both 8 and 16. Though the value '8' gave me a better accuracy over '16', it took a lot longer for the SVM to be trained as well as for it to predict the features. I have chosen a pixel_per_cell value of '16' there by sacrifising tiny bit of diffence in accuracy in order to reap the benefit of gain in overall performance.
+
+  `orientations=9`, `pixels_per_cell=(16, 16)` and `cells_per_block=(2, 2)`
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
