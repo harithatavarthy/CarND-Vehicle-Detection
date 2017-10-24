@@ -79,15 +79,26 @@ Initially i have used the udacity supplied code to perform sliding window search
 
 ![alt text][image12]
 
-Later, i have defined a function called `find_cars` that can peform both feature_extraction as well as multi scale search on a given image channel. The code for this function can be found on code cell IN-319 of Ipython notebook `project.ipynb`. This function when called with appropriate input parameters will return a list of multi size window positions where the cars are detected. Below visual shows the drawn multi scale windows (irrespective of whether cars are detected or not)
+Later, i have defined a function by name `find_cars` that can peform both feature_extraction as well as multi scale search on a given image channel. The code for this function can be found on code cell IN-319 of Ipython notebook `project.ipynb`. This function when called with appropriate input parameters will return a list of multi size window positions that contain the detected vehicles. Below visual shows the  multi scale window (irrespective of whether cars are detected or not) search process on an image channel.
 
 ![alt text][image11]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Though i experimented with various color spaces and parameters, I have ultimately used 'RGB' color space to extract Color and HOG features. To improve the SVM training speed, i have set the pixels_per_cell value to '16' (each cell is 16x16 pixels). By doing so, the training speed improved by five fold. Also, the speed at which the prediction are made increased by three fold.
 
-![alt text][image4]
+My pipeline to predict the vehicles on test images is as follows -
+ a. For each test image, I will call the function `vehicle_detection_tracking_img()` . This function will inturn call function `find_cars()` for different sections of the input image with different scaling size , which essentially is the core of multi scale window search.
+ b. Each time `find_cars()` funtion is called, it returns a list of cordinates with detected vehicles. I will save these coordinates for different window scales and will later use HEATMAPS with thresholds to  merge overlapping windows and remove false positives.
+ c. Finally, i will label the windows and draw boxes/widows over the image to represent the detected vehicles.
+ 
+ Below is an example of boxes drawn over the detected vehicles on test images.
+
+![alt text][image9]
+
+And here is an example of  heatmaps representing the overlapping windows
+
+![alt text][image10]
 ---
 
 ### Video Implementation
