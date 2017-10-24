@@ -1,5 +1,5 @@
-## Writeup Template
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+## Writeup
+### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
 
@@ -36,15 +36,15 @@ The goals / steps of this project are the following:
 ###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+### Writeup / README
 
 ####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
 You're reading it!
 
-###Histogram of Oriented Gradients (HOG)
+### Histogram of Oriented Gradients (HOG)
 
-####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+#### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
 The code for this step is contained in the  code cell IN-5 of the IPython notebook `project.ipynb`
 
@@ -58,21 +58,21 @@ Here is an example using the `RGB` color space and HOG parameters of `orientatio
 
 ![alt text][image8]
 
-####2. Explain how you settled on your final choice of HOG parameters.
+#### 2. Explain how you settled on your final choice of HOG parameters.
 
 Initially i tried to train the linear SVM using HOG features obtained from various color spaces . However RGB Color space gave me an better accuracy ( `99.6%`) over other color spaces and for that reason I have fixed on to 'RGB' color space. Then I experimented with various combinations of HOG parameters including a pixels_per_cell combination of both 8 and 16. Though the value '8' gave me a better accuracy over '16', it took a lot longer for the SVM to be trained as well as for it to predict the features. I have chosen a pixel_per_cell value of '16' there by sacrifising tiny bit of diffence in accuracy in order to reap the benefit of gain in overall performance.
 
   `orientations=9`, `pixels_per_cell=(16, 16)` and `cells_per_block=(2, 2)`
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
 Though Udacity suggested to use LinearSVM for this project, i  experimented with various other classifiere (including naive bayes, SVM with Grid Search and Decision Trees). Training took a lot longer using Decision Tree compared to SVM and Naive Bayes performed poorly over SVM. For that reason , i decided to use SVM and tried to experiment with various parameter combinations of SVM through Grid Search and found out that Linear SVM with a 'C' value of 1.0 is preferred over other combination.
 
 I have hence used LinearSVM to train my classifier.
 
-###Sliding Window Search
+### Sliding Window Search
 
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
 Initially i have used the udacity supplied code to perform sliding window search . You can see the `slide_window`function defined in code cell IN-383 of Ipython notebook `project.ipynb`.  As you can see in the visual below, this function can be called to perform fixed sized window size on an image. However for multi scale window search, this function will not work. 
 
@@ -83,7 +83,7 @@ Later, i have defined a function by name `find_cars` that can peform both featur
 
 ![alt text][image11]
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
 Though i experimented with various color spaces and parameters, I have ultimately used 'RGB' color space to extract Color and HOG features. To improve the SVM training speed, i have set the pixels_per_cell value to '16' (each cell is 16x16 pixels). By doing so, the training speed improved by five fold. Also, the speed at which the prediction are made increased by three fold.
 
@@ -101,12 +101,12 @@ My pipeline to predict the vehicles on test images is as follows -
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
 Here's a [link to my video result](./project_video_output.mp4)
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
@@ -122,9 +122,9 @@ The code for processing frames of video is contained in function `vehicle_detect
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Though most of the code base that i have used for this project is supplied by Udacity, i faced challenges with respect to obtaining the desired  accuracy and the speed at which i can train the classifier. Chosing the right color space took multiple experimentations.
 Also, Training the classifier took about two hours when i used all the training data supplied by udacity. I could have used an advanced GPU to fasten the training process but as it comes with a cost, i thought of experimenting with different combinations of pixels_per_cell. When i used the pixel_per_cell value of '16' instead of lower value, it did wonders in terms of increased speed of training .
