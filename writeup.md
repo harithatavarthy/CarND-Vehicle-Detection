@@ -74,10 +74,14 @@ I have hence used LinearSVM to train my classifier.
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-Initially i have used the udacity supplied code to perform sliding window search . You can see the `slide_window`function defined in code cell IN-383. This function works well for a fixed window size and does not work for a multi scale window search. As you can see in the visual below, this function can be called to draw fixed sized windows on an image.
+Initially i have used the udacity supplied code to perform sliding window search . You can see the `slide_window`function defined in code cell IN-383 of Ipython notebook `project.ipynb`.  As you can see in the visual below, this function can be called to perform fixed sized window size on an image. However for multi scale window search, this function will not work. 
 
 
 ![alt text][image12]
+
+Later, i have defined a function called `find_cars` that can peform both feature_extraction as well as multi scale search on a given image channel. The code for this function can be found on code cell IN-319 of Ipython notebook `project.ipynb`. This function when called with appropriate input parameters will return a list of multi size window positions where the cars are detected. Below visual shows the drawn multi scale windows (irrespective of whether cars are detected or not)
+
+![alt text][image11]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
